@@ -1,0 +1,58 @@
+#!/bin/bash                                                              
+#PBS -N step_lambda                                               
+#PBS -q gpu_gtx2080
+#PBS -V
+#PBS -l nodes=node11:ppn=4
+
+#######################################################################
+#                           AMBER Setup                               #
+#---------------------------------------------------------------------#
+#source /home/softadmin/SOFTWARE_INSTALL/amber18/amber.sh
+source /home/eric/softwares/amber20/amber20/amber.sh 
+#=====================================================================#
+
+export PREFIX=`whoami`
+export WDIR=$PREFIX.`basename $PBS_JOBID .master.cl.lehman.edu`
+
+################################################
+#       Stractch Setup->Uncomment One          #
+#----------------------------------------------#
+#cd /scratch3                                  #
+cd /scratch2                                  #
+#==============================================#
+
+mkdir $WDIR
+
+cd $WDIR
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%% NO EDIT THIS PART %%%%%%%%%%%%%%%%%%%%%%%%
+NCPU=`wc -l < $PBS_NODEFILE`
+NODES=`uniq $PBS_NODEFILE`
+
+echo ------------------------------------------------------
+echo 'This job is allocated on '${NCPU}' cpu(s)'
+echo Your files are in `pwd`
+echo 'Job is running on node(s): '
+echo $NODES
+echo ------------------------------------------------------
+
+
+SANDER="pmemd.cuda -AllowSmallBox"
+#SANDER=pmemd.cuda
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#Copy things from working directory
+cp ${PBS_O_WORKDIR}/* .
+
+$SANDER -i ht.in -c ti.rst7 -ref ti.rst7 -p ti.prmtop -O -o ht.out -inf ht.info -e ht.en -r ht.rst7 -x ht.nc -l ht.log
+$SANDER -i eq.in -c ht.rst7 -ref ht.rst7 -p ti.prmtop -O -o eq.out -inf eq.info -e eq.en -r eq.rst7 -x eq.nc -l eq.log
+$SANDER -i ti.in -c eq.rst7 -ref eq.rst7 -p ti.prmtop -O -o ti001.out -inf ti001.info -e ti001.en -r ti001.rst7 -x ti001.nc -l ti001.log
+
+cd ../
+
+#Copy the results to working dirtectory and delete the files
+#from the node
+mkdir ${PBS_O_WORKDIR}/$WDIR
+
+cp $WDIR/ti001.[o,i,e,l]* ${PBS_O_WORKDIR}/$WDIR/ && rm -rf $WDIR
