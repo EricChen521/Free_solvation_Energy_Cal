@@ -1,14 +1,16 @@
-# Free_solvation_Energy_Cal
+# Free Solvation Energy Calculation Using Amber
 
-Tutorial and automated scripts to calculate the free solvation energy using Amber Double Decoupling Method. In this tutorial, the free solvation energy is the free energy of transfering the molecule from gas phase to the solvent phase.
+Tutorial and automated scripts to calculate the free solvation energy using Amber Double Decoupling Method. 
 
 Requirements:
 
-1. Amber Package with pmemd.MPI and pmemd.cuda installed 
+1. Amber Package with pmemd.cuda installed 
 
 2. Python3
 
-## Step 1: Prepare the system, here we take a benzne molecule for example.
+## Step 1: Prepare the system
+
+Here we take the benzne molecule for example:
 
 1.1  Using antechamber and parmchk2 to generate the mol2 and parameter file from the ligand initial structure file (ligand.pdb).
 
@@ -33,7 +35,7 @@ sovatebox lig TIP3PBOX 12.0
 saveamberparm lig lig_solvated.prmtop lig_solvated.rst7
 ```
 
-## Step 2: Run a short cycle of MD to prepare the system into a resonable coordinate
+## Step 2: Run a short cycle of MD to prepare the system into the one with resonable coordinates
 
 In short, the cycle includes minimizing, heating and pressurizing
 
@@ -43,7 +45,7 @@ pmemd.cuda -i heat.in -p lig_solvated.prmtop -c min_sol.rst7 -ref min_sol.rst7 -
 pmemd.cuda  -i press.in -p lig_solvated.prmtop -c heat_sol.rst7 -ref heat_sol.rst7 -O -o press_sol.out -e press_sol.en -inf press_sol.info -r press_sol.rst7 -x press_sol.nc -l press_sol.log
 
 ```
-## Step 3: Setup the lambda windown and get the files ready in each lambda
+## Step 3: Setup the lambda windows and get the files ready in each lambda
 
 Here we have 15 lambda states, and we will modify the the lambda values in the template parameter file 
 
@@ -68,7 +70,7 @@ cd ..
 ```
 ## Step 4: run each lambda states 
 
-By now, you have all the files in each lambda directory, just run the follow three steps. Of note, in the case when your system is too small for regular pmemd.cuda, using the "-AllowSmallBox" label: pmemd.cuda -AllowSmallBox:
+By now, you have all the files in each lambda directory, just run the follow three steps. Please note in the heating step, we just use the coordinate not the velocity and in the case when your system is too small for regular pmemd.cuda, using the "-AllowSmallBox" label: pmemd.cuda -AllowSmallBox:
 
 ```
 # heating
@@ -91,7 +93,7 @@ python getdvdl 5 ti001.en [01].* > dvdl.dat
 ```
 The dG value will be shown at the last line of the generated dvdl.dat file.
 
-*This tutorial is adapted from the Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/
+*We thanks Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/. The script and template files in this tutorial were adpated from his work.
 
 
 
