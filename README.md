@@ -91,7 +91,7 @@ After all lambda state calculations are completed, use the following python scri
 python getdvdl 5 ti001.en [01].* > dvdl.dat
 
 ```
-The dG (~1.03664 Kcal/mol in this benzene example) value will be shown at the last line of the generated dvdl.dat file. Since we the dG is decoupling the ligand from water, the solvation free energy is the reverse process, therefore the solvation free energy is -dG, which is -1.03664 Kcal/mol.
+The dG (~1.03664 Kcal/mol in this benzene example) value will be shown at the last line of the generated dvdl.dat file. Since we were decoupling the ligand from water, the solvation free energy is the reverse process, therefore the solvation free energy is -dG, which is -1.03664 Kcal/mol.
 
 *We thanks Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/. The script and template files in this tutorial were adpated from his work. 
 
