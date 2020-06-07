@@ -10,7 +10,7 @@ Requirements:
 
 ## Step 1: Prepare the system
 
-Here we take the benzne molecule for example:
+Here we take the benzne molecule for example and the ligand was fixed during MD.
 
 1.1  Using antechamber and parmchk2 to generate the mol2 and parameter file from the ligand initial structure file (ligand.pdb).
 
@@ -93,7 +93,7 @@ python getdvdl 5 ti001.en [01].* > dvdl.dat
 ```
 The dG value will be shown at the last line of the generated dvdl.dat file.
 
-*We thanks Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/. The script and template files in this tutorial were adpated from his work.
+*We thanks Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/. The script and template files in this tutorial were adpated from his work. 
 
 
 
