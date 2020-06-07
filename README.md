@@ -83,7 +83,7 @@ pmemd.cuda -i -i ti.in -c eq.rst7 -ref eq.rst7 -p ti.prmtop -O -o ti001.out -inf
 
 ## Step 5: Get the solvation free energy result
 
-After all lambda states calculation finished, use the following python script to get the dG value:
+After all lambda state calculations are completed, use the following python script to get the dG value:
 
 ```
 python getdvdl 5 ti001.en [01].* > dvdl.dat
@@ -91,7 +91,7 @@ python getdvdl 5 ti001.en [01].* > dvdl.dat
 ```
 The dG value will be shown at the last line of the generated dvdl.dat file.
 
-* This tutorial is adapted from the Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/ *
+*This tutorial is adapted from the Thomas Steinbrecher's free energy calculation tutorial at http://ambermd.org/tutorials/advanced/tutorial9/
 
 
 
