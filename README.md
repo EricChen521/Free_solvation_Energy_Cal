@@ -8,7 +8,7 @@ Requirements:
 
 2. Python3
 
-# Step 1: Prepare the system, here we take a benzne molecule for example.
+## Step 1: Prepare the system, here we take a benzne molecule for example.
 
 1.1  Using antechamber and parmchk2 to generate the mol2 and parameter file from the ligand initial structure file (ligand.pdb).
 
@@ -33,7 +33,7 @@ sovatebox lig TIP3PBOX 12.0
 saveamberparm lig lig_solvated.prmtop lig_solvated.rst7
 ```
 
-# Step 2: Run a short cycle of MD to prepare the system into a resonable coordinate
+## Step 2: Run a short cycle of MD to prepare the system into a resonable coordinate
 
 In short, the cycle includes minimizing, heating and pressurizing
 
@@ -43,7 +43,7 @@ pmemd.cuda -i heat.in -p lig_solvated.prmtop -c min_sol.rst7 -ref min_sol.rst7 -
 pmemd.cuda  -i press.in -p lig_solvated.prmtop -c heat_sol.rst7 -ref heat_sol.rst7 -O -o press_sol.out -e press_sol.en -inf press_sol.info -r press_sol.rst7 -x press_sol.nc -l press_sol.log
 
 ```
-# Step 3: Setup the lambda windown and get the files ready in each lambda
+## Step 3: Setup the lambda windown and get the files ready in each lambda
 
 Here we have 15 lambda states, and we will modify the the lambda values in the template parameter file 
 
@@ -66,7 +66,7 @@ done
 
 cd ..
 ```
-# Step 4: run each lambda states 
+## Step 4: run each lambda states 
 
 By now, you have all the files in each lambda directory, just run the follow three steps. Of note, in the case when your system is too small for regular pmemd.cuda, using the "-AllowSmallBox" label: pmemd.cuda -AllowSmallBox:
 
@@ -81,7 +81,7 @@ pmemd.cuda -i eq.in -c ht.rst7 -ref ht.rst7 -p ti.prmtop -O -o eq.out -inf eq.in
 pmemd.cuda -i -i ti.in -c eq.rst7 -ref eq.rst7 -p ti.prmtop -O -o ti001.out -inf ti001.info -e ti001.en -r ti001.rst7 -x ti001.nc -l ti001.log
 ```
 
-# Step 5: Get the solvation free energy result
+## Step 5: Get the solvation free energy result
 
 After all lambda states calculation finished, use the following python script to get the dG value:
 
